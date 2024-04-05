@@ -2,9 +2,9 @@
 
 Scripts with R code used to analyse twin data as reported in the main manuscript:
 
-> Bignardi, G. et al. Distinct genetic pathways to music enjoyment. 2024.04.04.588094. (2024).
+> Bignardi, G. et al. Distinct genetic pathways to music enjoyment (preprint).
 
-Preprint at https://doi.org/10.1101/2024.04.04.588094 (2024).
+Preprint at https://doi.org/10.1101/2024.04.04.588094.
 
 ## Repository
 
