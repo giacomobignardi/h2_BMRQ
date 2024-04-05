@@ -2,12 +2,14 @@
 
 Scripts with R code used to analyse twin data as reported in the main manuscript:
 
-> G. Bignardi et al., Genetic pathways to music enjoyment are partly distinct and dissociate from music perception
+> Bignardi, G. et al. Distinct genetic pathways to music enjoyment. 2024.04.04.588094. (2024).
+
+Preprint at https://doi.org/10.1101/2024.04.04.588094 (2024).
 
 ## Repository
 
 The following directories contain:
-- SFILE: Supplementary Files
+- SFILE: Supplementary Information and Files
 - R: **includes scripts for the analysis**
   - functions
     - lavaantwda: **latent variable analysis of twin data**
