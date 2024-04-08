@@ -22,9 +22,9 @@ The following directories contain:
 Supporting Information Files names are adapted to manuscript
 
 - SFILE1 = 01_SFILE05 (univariate CTD                    - Fig. 1 and Supplementary Fig. 5)
-- SFILE2 = 01_SFILE06 (trivariate sequential             - Fig. 3 and Supplementary Fig. 6)
-- SFILE3 = 01_SFILE07 (distinct factor solution          - Fig. 4 and Supplementary Fig. 7)
-- SFILE4 = 01_SFILE08 (common genetic factor solution    - Supplementary Fig. 8)
+- SFILE2 = 03_SFILE06 (trivariate sequential             - Fig. 3 and Supplementary Fig. 6)
+- SFILE3 = 05_SFILE07 (distinct factor solution          - Fig. 4 and Supplementary Fig. 7)
+- SFILE4 = 05_SFILE08 (common genetic factor solution    - Supplementary Fig. 8)
 
 ## License 
 
