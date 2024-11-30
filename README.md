@@ -1,8 +1,8 @@
-# Distinct genetic pathways to music enjoyment
+# Twin modelling reveals partly distinct genetic pathways to music enjoyment
 
 Scripts with R code used to analyse twin data as reported in the main manuscript:
 
-> Bignardi, G. et al. Distinct genetic pathways to music enjoyment (preprint).
+> Bignardi, G. et al. Twin modelling reveals partly distinct genetic pathways to music enjoyment (preprint).
 
 Preprint at https://doi.org/10.1101/2024.04.04.588094.
 
@@ -21,10 +21,10 @@ The following directories contain:
 
 Supporting Information Files names are adapted to manuscript
 
-- SFILE1 = 01_SFILE05 (univariate CTD                    - Fig. 1 and Supplementary Fig. 5)
-- SFILE2 = 03_SFILE06 (trivariate sequential             - Fig. 3 and Supplementary Fig. 6)
-- SFILE3 = 05_SFILE07 (distinct factor solution          - Fig. 4 and Supplementary Fig. 7)
-- SFILE4 = 05_SFILE08 (common genetic factor solution    - Supplementary Fig. 8)
+- supplementary_data_1.csv: estimates for the BMRQ total score twin model depicted in Fig. 1 and Supplementary Fig. 3. 
+- supplementary_data_2.csv: estimates for the Cholesky decomposition of SMDT, BAS-RR, and BMRQ total scores, depicted in Fig. 2 and Supplementary Fig. 5.
+- supplementary_data_3.xls:  observed correlation matrix across the eight phenotypes stratified across zygosity and twin order, as well as pairwise sample sizes for complete observations.
+- supplementary_data_4.xls: estimates for the distinct factor, shared-genetic, and shared-environmental solutions for the BMRQ facets scores, depicted in Fig. 4 and Supplementary Fig. 6-8.
 
 ## License 
 
