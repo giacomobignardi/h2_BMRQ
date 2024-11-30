@@ -7,7 +7,7 @@
 #TIDY: Tidy initial dataframe
 #PHENOTYPES: prepare phenotype (bmrq & facets, reward responsiveness, music discrimination)
 #Program: 00 ------------------------------------------------------------------------------------------------------------------------------
-.libPaths('W:\\XXX\04_packages')
+.libPaths('W:\\C4_Behavior_Genectics_Unit\\Giacomo Bignardi\\2023_BMRQ\\04_packages')
 
 # load packages
 library(tidyverse)
@@ -20,14 +20,14 @@ rm(list = ls())
 # set Open Access working directories
 wdOA = getwd()
 wdOA_scripts = "02_scripts"
-wdOA_output = "03_outputs"
+wdOA_output = "03_outputs/01_final"
 
 # set not Open Access working directories
 wdNOA_Data = "01_data"
-wdOA_ImageOutput = "05_images"
+wdOA_ImageOutput = "05_images/01_final"
 
 # load dataFrames:
-twin_BMRQ  = read_csv(sprintf("%s/%s/XXX.csv", wdOA,wdNOA_Data))
+twin_BMRQ  = read_csv(sprintf("%s/%s/HUMMUS_Giacomo.csv", wdOA,wdNOA_Data))
 
 # sanity check that there are no duplicated families
 unique(table(twin_BMRQ$pairnr))
@@ -68,7 +68,7 @@ twin_BMRQ = twin_BMRQ %>%
                              ifelse(bestzyg == 2 & sex == 1,4, #DZmale
                                     ifelse(bestzyg == 2 & sex == 2,3, #DZfemale
                                            ifelse(bestzyg == 4, 5, NA #DOS 
-                                             )))))) %>% 
+                                           )))))) %>% 
   rename(fam = pairnr)
 table(twin_BMRQ$zyg)
 
@@ -100,30 +100,24 @@ twin_BMRQ$age = round(as.numeric(
 # [2] - somewhat true for me; Något sant för mig
 # [3] - somewhat false for me; Något falskt för mig
 # [4] - very false for me; Mycket falskt för mig
-# NOTE THAT BFI DATA ARE USED FOR ANOTHER PROJECT!
-# BFI answer options (Soto & John, 2017). https://www.sciencedirect.com/science/article/pii/S0092656616301325 (note that the scoring is different in the STAGE version) english; sweden
-# [0] - Completely disagree; Håller inte alls med
-# [1] - disagree; Håller delvis inte med
-# [2] - Neither agree nor disagree; Varken eller
-# [3] - agree; Håller delvis med
-# [4] - Completely agree; Håller helt med
+
 
 # reverse score for reverse items
 twin_BMRQ = twin_BMRQ %>% mutate(
-                                 #BMRQ reversed items
-                                 #Musical Seeking
-                                 BMRS_2_r = 6-BMRS_2,
-                                 #Sensory Motor
-                                 BMRS_5_r = 6-BMRS_5,
-                          
-                                 #note that for the BIS/BAS the order of answer is already reversed 
-                                 #BAS Reward Responsiveness
-                                 BISBAS_4_r = 5-BISBAS_4,
-                                 BISBAS_7_r = 5-BISBAS_7,
-                                 BISBAS_14_r = 5-BISBAS_14,
-                                 BISBAS_18_r = 5-BISBAS_18,
-                                 BISBAS_23_r = 5-BISBAS_23,
-                                 )
+  #BMRQ reversed items
+  #Musical Seeking
+  BMRS_2_r = 6-BMRS_2,
+  #Sensory Motor
+  BMRS_5_r = 6-BMRS_5,
+  
+  #note that for the BIS/BAS the order of answer is already reversed 
+  #BAS Reward Responsiveness
+  BISBAS_4_r = 5-BISBAS_4,
+  BISBAS_7_r = 5-BISBAS_7,
+  BISBAS_14_r = 5-BISBAS_14,
+  BISBAS_18_r = 5-BISBAS_18,
+  BISBAS_23_r = 5-BISBAS_23,
+)
 
 # create sum score and parcels
 twin_BMRQ = twin_BMRQ %>% mutate(#overall score
@@ -184,7 +178,12 @@ twin_BMRQ = twin_BMRQ %>% mutate(#overall score
     BISBAS_7_r + 
     BISBAS_14_r + 
     BISBAS_18_r + 
-    BISBAS_23_r
+    BISBAS_23_r,
+  #Overall Music Discrimination Abilities
+  music_discrimination = 
+    rhythm_score + 
+    melody_d_score + 
+    pitch_score
 )
 
 # remove individuals for which the BMRQ is missing
@@ -250,11 +249,13 @@ twin_BMRQ %>% rstatix::get_summary_stats(BMRS_total)
 # CFA#### 
 # CFA to confirm that BMRQ sum score is appropriate in swedish sample
 MR_T1_mod =
-" MRS =~  NA*BMRS_EE_1 + BMRS_MS_1 + BMRS_MR_1 + BMRS_SM_1 + BMRS_SR_1
+  " MRS =~  NA*BMRS_EE_1 + BMRS_MS_1 + BMRS_MR_1 + BMRS_SM_1 + BMRS_SR_1
   MRS ~~ 1*MRS
 "
 MR_T1_fit = lavaan::cfa(MR_T1_mod, data = twin_BMRQ_wide)
 lavaan::fitmeasures(MR_T1_fit, c("cfi", "srmr"))
+#cfi  srmr 
+#0.960 0.034 
 
 MR_T2_mod =
   " MRS =~  NA*BMRS_EE_2 + BMRS_MS_2 + BMRS_MR_2 + BMRS_SM_2 + BMRS_SR_2
@@ -262,6 +263,8 @@ MR_T2_mod =
 "
 MR_T2_fit = lavaan::cfa(MR_T2_mod, data = twin_BMRQ_wide)
 lavaan::fitmeasures(MR_T2_fit, c("cfi", "srmr"))
+#cfi  srmr 
+#0.961 0.035 
 
 # N individuals with full BMRQ data
 twin_BMRQ %>% filter(!is.na(BMRS_total)) %>%  reframe(table(zyg))
