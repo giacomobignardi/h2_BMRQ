@@ -129,3 +129,113 @@ SAT_model_5v <-"
     rp5_m_dz := cov_m_dz_P55_T12 / sqrt(var_m_dz_P5_T1*var_m_dz_P5_T2)
     rp5_dos := cov_dos_P55_T12 / sqrt(var_f_dos_P5_T1*var_m_dos_P5_T2)
  "
+
+# use this model to extract phenotypic correlations and cross-trait cross-twin correlations
+SAT_model_5v_const <-"
+      #means
+    P1_T1~c(mean_f_P1, mean_m_P1, mean_f_P1, mean_m_P1,mean_f_P1)*1 + b_P1*age
+    P1_T2~c(mean_f_P1, mean_m_P1, mean_f_P1, mean_m_P1,mean_m_P1)*1 + b_P1*age
+    P2_T1~c(mean_f_P2, mean_m_P2, mean_f_P2, mean_m_P2,mean_f_P2)*1 + b_P2*age
+    P2_T2~c(mean_f_P2, mean_m_P2, mean_f_P2, mean_m_P2,mean_m_P2)*1 + b_P2*age
+    P3_T1~c(mean_f_P3, mean_m_P3, mean_f_P3, mean_m_P3,mean_f_P3)*1 + b_P3*age
+    P3_T2~c(mean_f_P3, mean_m_P3, mean_f_P3, mean_m_P3,mean_m_P3)*1 + b_P3*age
+    P4_T1~c(mean_f_P4, mean_m_P4, mean_f_P4, mean_m_P4,mean_f_P4)*1 + b_P4*age
+    P4_T2~c(mean_f_P4, mean_m_P4, mean_f_P4, mean_m_P4,mean_m_P4)*1 + b_P4*age
+    P5_T1~c(mean_f_P5, mean_m_P5, mean_f_P5, mean_m_P5,mean_f_P5)*1 + b_P5*age
+    P5_T2~c(mean_f_P5, mean_m_P5, mean_f_P5, mean_m_P5,mean_m_P5)*1 + b_P5*age
+    
+    #constrain covariate variances to be equal across groups
+    age ~~ var_age*age
+  
+    #variances
+    P1_T1~~c(var_P1)*P1_T1
+    P1_T2~~c(var_P1)*P1_T2
+    P2_T1~~c(var_P2)*P2_T1
+    P2_T2~~c(var_P2)*P2_T2
+    P3_T1~~c(var_P3)*P3_T1
+    P3_T2~~c(var_P3)*P3_T2
+    P4_T1~~c(var_P4)*P4_T1
+    P4_T2~~c(var_P4)*P4_T2
+    P5_T1~~c(var_P5)*P5_T1
+    P5_T2~~c(var_P5)*P5_T2
+    
+    
+    #covariances
+    P1_T1 ~~ 
+    c(cov_mz_P12, cov_mz_P12, cov_dz_P12, cov_dz_P12, cov_dz_P12)*P2_T1 + 
+    c(cov_mz_P13, cov_mz_P13, cov_dz_P13, cov_dz_P13, cov_dz_P13)*P3_T1 + 
+    c(cov_mz_P14, cov_mz_P14, cov_dz_P14, cov_dz_P14, cov_dz_P14)*P4_T1 +
+    c(cov_mz_P15, cov_mz_P15, cov_dz_P15, cov_dz_P15, cov_dz_P15)*P5_T1 +
+    c(cov_mz_P11_T12, cov_mz_P11_T12, cov_dz_P11_T12, cov_dz_P11_T12, cov_dz_P11_T12)*P1_T2 + 
+    c(cov_mz_P12_T12, cov_mz_P12_T12, cov_dz_P12_T12, cov_dz_P12_T12, cov_dz_P12_T12)*P2_T2 + 
+    c(cov_mz_P13_T12, cov_mz_P13_T12, cov_dz_P13_T12, cov_dz_P13_T12, cov_dz_P13_T12)*P3_T2 + 
+    c(cov_mz_P14_T12, cov_mz_P14_T12, cov_dz_P14_T12, cov_dz_P14_T12, cov_dz_P14_T12)*P4_T2 +
+    c(cov_mz_P15_T12, cov_mz_P15_T12, cov_dz_P15_T12, cov_dz_P15_T12, cov_dz_P15_T12)*P5_T2 
+
+    P2_T1 ~~ 
+    c(cov_mz_P23, cov_mz_P23, cov_dz_P23, cov_dz_P23, cov_dz_P23)*P3_T1 + 
+    c(cov_mz_P24, cov_mz_P24, cov_dz_P24, cov_dz_P24, cov_dz_P24)*P4_T1 +
+    c(cov_mz_P25, cov_mz_P25, cov_dz_P25, cov_dz_P25, cov_dz_P25)*P5_T1 +
+    c(cov_mz_P12_T12, cov_mz_P12_T12, cov_dz_P12_T12, cov_dz_P12_T12, cov_dz_P12_T12)*P1_T2 + 
+    c(cov_mz_P22_T12, cov_mz_P22_T12, cov_dz_P22_T12, cov_dz_P22_T12, cov_dz_P22_T12)*P2_T2 + 
+    c(cov_mz_P23_T12, cov_mz_P23_T12, cov_dz_P23_T12, cov_dz_P23_T12, cov_dz_P23_T12)*P3_T2 + 
+    c(cov_mz_P24_T12, cov_mz_P24_T12, cov_dz_P24_T12, cov_dz_P24_T12, cov_dz_P24_T12)*P4_T2 +
+    c(cov_mz_P25_T12, cov_mz_P25_T12, cov_dz_P25_T12, cov_dz_P25_T12, cov_dz_P25_T12)*P5_T2
+    
+    P3_T1 ~~ 
+    c(cov_mz_P34, cov_mz_P34, cov_dz_P34, cov_dz_P34, cov_dz_P34)*P4_T1 +
+    c(cov_mz_P35, cov_mz_P35, cov_dz_P35, cov_dz_P35, cov_dz_P35)*P5_T1 + 
+    c(cov_mz_P13_T12, cov_mz_P13_T12, cov_dz_P13_T12, cov_dz_P13_T12, cov_dz_P13_T12)*P1_T2 + 
+    c(cov_mz_P23_T12, cov_mz_P23_T12, cov_dz_P23_T12, cov_dz_P23_T12, cov_dz_P23_T12)*P2_T2 + 
+    c(cov_mz_P33_T12, cov_mz_P33_T12, cov_dz_P33_T12, cov_dz_P33_T12, cov_dz_P33_T12)*P3_T2 + 
+    c(cov_mz_P34_T12, cov_mz_P34_T12, cov_dz_P34_T12, cov_dz_P34_T12, cov_dz_P34_T12)*P4_T2 +
+    c(cov_mz_P35_T12, cov_mz_P35_T12, cov_dz_P35_T12, cov_dz_P35_T12, cov_dz_P35_T12)*P5_T2 
+    
+    P4_T1 ~~ 
+    c(cov_mz_P45, cov_mz_P45, cov_dz_P45, cov_dz_P45, cov_dz_P45)*P5_T1 +
+    c(cov_mz_P14_T12, cov_mz_P14_T12, cov_dz_P14_T12, cov_dz_P14_T12, cov_dz_P14_T12)*P1_T2 + 
+    c(cov_mz_P24_T12, cov_mz_P24_T12, cov_dz_P24_T12, cov_dz_P24_T12, cov_dz_P24_T12)*P2_T2 + 
+    c(cov_mz_P34_T12, cov_mz_P34_T12, cov_dz_P34_T12, cov_dz_P34_T12, cov_dz_P34_T12)*P3_T2 + 
+    c(cov_mz_P44_T12, cov_mz_P44_T12, cov_dz_P44_T12, cov_dz_P44_T12, cov_dz_P44_T12)*P4_T2 +
+    c(cov_mz_P45_T12, cov_mz_P45_T12, cov_dz_P45_T12, cov_dz_P45_T12, cov_dz_P45_T12)*P5_T2 
+    
+    P5_T1 ~~ 
+    c(cov_mz_P15_T12, cov_mz_P15_T12, cov_dz_P15_T12, cov_dz_P15_T12, cov_dz_P15_T12)*P1_T2 + 
+    c(cov_mz_P25_T12, cov_mz_P25_T12, cov_dz_P25_T12, cov_dz_P25_T12, cov_dz_P25_T12)*P2_T2 + 
+    c(cov_mz_P35_T12, cov_mz_P35_T12, cov_dz_P35_T12, cov_dz_P35_T12, cov_dz_P35_T12)*P3_T2 + 
+    c(cov_mz_P45_T12, cov_mz_P45_T12, cov_dz_P45_T12, cov_dz_P45_T12, cov_dz_P45_T12)*P4_T2 +
+    c(cov_mz_P55_T12, cov_mz_P55_T12, cov_dz_P55_T12, cov_dz_P55_T12, cov_dz_P55_T12)*P5_T2 
+    
+    P1_T2 ~~ 
+    c(cov_mz_P12, cov_mz_P12, cov_dz_P12, cov_dz_P12, cov_dz_P12)*P2_T2 + 
+    c(cov_mz_P13, cov_mz_P13, cov_dz_P13, cov_dz_P13, cov_dz_P13)*P3_T2 + 
+    c(cov_mz_P14, cov_mz_P14, cov_dz_P14, cov_dz_P14, cov_dz_P14)*P4_T2 +
+    c(cov_mz_P15, cov_mz_P15, cov_dz_P15, cov_dz_P15, cov_dz_P15)*P5_T2
+
+    P2_T2 ~~ 
+    c(cov_mz_P23, cov_mz_P23, cov_dz_P23, cov_dz_P23, cov_dz_P23)*P3_T2 + 
+    c(cov_mz_P24, cov_mz_P24, cov_dz_P24, cov_dz_P24, cov_dz_P24)*P4_T2 +
+    c(cov_mz_P25, cov_mz_P25, cov_dz_P25, cov_dz_P25, cov_dz_P25)*P5_T2 
+    
+    P3_T2 ~~ c(cov_mz_P34, cov_mz_P34,cov_dz_P34, cov_dz_P34, cov_dz_P34)*P4_T2 +
+    c(cov_mz_P35, cov_mz_P35,cov_dz_P35, cov_dz_P35, cov_dz_P35)*P5_T2
+    
+    P4_T2 ~~ c(cov_mz_P45, cov_mz_P45,cov_dz_P45, cov_dz_P45, cov_dz_P45)*P5_T2
+    
+    #tidy twin phenotypic correlations
+    rp1_mz := cov_mz_P11_T12 / sqrt(var_P1*var_P1)
+    rp1_dz := cov_dz_P11_T12 / sqrt(var_P1*var_P1)
+    
+    rp2_mz := cov_mz_P22_T12 / sqrt(var_P2*var_P2)
+    rp2_dz := cov_dz_P22_T12 / sqrt(var_P2*var_P2)
+    
+    rp3_mz := cov_mz_P33_T12 / sqrt(var_P3*var_P3)
+    rp3_dz := cov_dz_P33_T12 / sqrt(var_P3*var_P3)
+    
+    rp4_mz := cov_mz_P44_T12 / sqrt(var_P4*var_P4)
+    rp4_dz := cov_dz_P44_T12 / sqrt(var_P4*var_P4)
+    
+    rp5_mz := cov_mz_P55_T12 / sqrt(var_P5*var_P5)
+    rp5_dz := cov_dz_P55_T12 / sqrt(var_P5*var_P5)
+    
+ "

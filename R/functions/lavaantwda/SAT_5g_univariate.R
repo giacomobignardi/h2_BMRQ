@@ -93,6 +93,7 @@ SAT_mod_zyg_3 =
   P_T1 ~~ c(cov_f_mz,cov_m_mz,cov_f_dz,cov_m_dz,cov_dos)*P_T2
   #constrain covariate variances to be equal across groups
   age ~~ var_age*age
+  d:= (mean_f-mean_m)/sqrt((var_f+var_m)/2)
 "
 
 #constrained model: sex mean, implies no sex effects on means
@@ -123,6 +124,8 @@ SAT_mod_sxv_5 =
   P_T1 ~~ c(cov_f_mz,cov_m_mz,cov_f_dz,cov_m_dz,cov_dos)*P_T2
   #constrain covariate variances to be equal across groups
   age ~~ var_age*age
+  #effect size of sex mean difference
+  d:= (mean_f-mean_m)/sqrt(var)
 "
 
 #constrained model: covariance sex mz, implies no difference between covariances across same/sex
@@ -138,6 +141,8 @@ SAT_mod_qnt_6 =
   P_T1 ~~ c(cov_mz,cov_mz,cov_dz,cov_dz,cov_dos)*P_T2
   #constrain covariate variances to be equal across groups
   age ~~ var_age*age
+  #effect size of sex mean difference
+  d:= (mean_f-mean_m)/sqrt(var)
 "
 #constrained model: covariance sex dz, implies no difference between covariances across opposite-sex and same-sex
 SAT_mod_qal_7 =
@@ -152,4 +157,6 @@ SAT_mod_qal_7 =
   P_T1 ~~ c(cov_mz,cov_mz,cov_dz,cov_dz,cov_dz)*P_T2
   #constrain covariate variances to be equal across groups
   age ~~ var_age*age
+  #effect size of sex mean difference
+  d:= (mean_f-mean_m)/sqrt(var)
 "

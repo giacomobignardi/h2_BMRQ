@@ -1,13 +1,4 @@
-#MULTIVARATE CTD####
-# structural equation model specification for 5 groups, 6 phenotypes, and one covariate per phenotype:
-# 1:monozygotic female
-# 2:monozygotic male
-# 3:dizygotic female
-# 4:dizygotic male
-# 5:dizygotic opposite-sex
-#correlated and hybrid independent pathway model, correlated factor solution
-
-correlated_AE_6g_model <-"
+cfs_AE_mod <-"
     #means
     P1_T1~c(mean_f_P1, mean_m_P1, mean_f_P1, mean_m_P1, mean_f_P1)*1 + b_P1*age
     P1_T2~c(mean_f_P1, mean_m_P1, mean_f_P1, mean_m_P1, mean_m_P1)*1 + b_P1*age
@@ -339,7 +330,7 @@ correlated_AE_6g_model <-"
     zA_P15 := 0.5 * log((1 + rA_P15)/(1 - rA_P15))
     zA_P16 := 0.5 * log((1 + rA_P16)/(1 - rA_P16))
 
-    #zA differences
+    #zA differences (note that correlations are dependent)
     dzA_P123 := zA_P12 - zA_P13
     dzA_P124 := zA_P12 - zA_P14
     dzA_P125 := zA_P12 - zA_P15
@@ -351,7 +342,60 @@ correlated_AE_6g_model <-"
     dzA_P146 := zA_P14 - zA_P16
     dzA_P156 := zA_P15 - zA_P16
     
+    #covE difference
+    dcovE_P123 := covE_P12 - covE_P13
+    dcovE_P124 := covE_P12 - covE_P14
+    dcovE_P125 := covE_P12 - covE_P15
+    dcovE_P126 := covE_P12 - covE_P16
+    dcovE_P134 := covE_P13 - covE_P14
+    dcovE_P135 := covE_P13 - covE_P15
+    dcovE_P136 := covE_P13 - covE_P16
+    dcovE_P145 := covE_P14 - covE_P15
+    dcovE_P146 := covE_P14 - covE_P16
+    dcovE_P156 := covE_P15 - covE_P16
     
+    #transform to rE zE
+    zE_P12 := 0.5 * log((1 + rE_P12)/(1 - rE_P12))
+    zE_P13 := 0.5 * log((1 + rE_P13)/(1 - rE_P13))
+    zE_P14 := 0.5 * log((1 + rE_P14)/(1 - rE_P14))
+    zE_P15 := 0.5 * log((1 + rE_P15)/(1 - rE_P15))
+    zE_P16 := 0.5 * log((1 + rE_P16)/(1 - rE_P16))
+
+    #zE differences (note that correlations are dependent)
+    dzE_P123 := zE_P12 - zE_P13
+    dzE_P124 := zE_P12 - zE_P14
+    dzE_P125 := zE_P12 - zE_P15
+    dzE_P126 := zE_P12 - zE_P16
+    dzE_P134 := zE_P13 - zE_P14
+    dzE_P135 := zE_P13 - zE_P15
+    dzE_P136 := zE_P13 - zE_P16
+    dzE_P145 := zE_P14 - zE_P15
+    dzE_P146 := zE_P14 - zE_P16
+    dzE_P156 := zE_P15 - zE_P16
   "
+
+#  Test significance of difference between genetic correlations by constraining A covariances to be equal
+constrain_AP123 = " covA_P12 == covA_P13 "
+constrain_AP124 = " covA_P12 == covA_P14 "
+constrain_AP125 = " covA_P12 == covA_P15 "
+constrain_AP126 = " covA_P12 == covA_P16 "
+constrain_AP134 = " covA_P13 == covA_P14 "
+constrain_AP135 = " covA_P13 == covA_P15 "
+constrain_AP136 = " covA_P13 == covA_P16 "
+constrain_AP145 = " covA_P14 == covA_P15 "
+constrain_AP146 = " covA_P14 == covA_P16 "
+constrain_AP156 = " covA_P15 == covA_P16 "
+
+#  Test significance of difference between genetic correlations by constraining E covariances to be equal
+constrain_EP123 = " covE_P12 == covE_P13 "
+constrain_EP124 = " covE_P12 == covE_P14 "
+constrain_EP125 = " covE_P12 == covE_P15 "
+constrain_EP126 = " covE_P12 == covE_P16 "
+constrain_EP134 = " covE_P13 == covE_P14 "
+constrain_EP135 = " covE_P13 == covE_P15 "
+constrain_EP136 = " covE_P13 == covE_P16 "
+constrain_EP145 = " covE_P14 == covE_P15 "
+constrain_EP146 = " covE_P14 == covE_P16 "
+constrain_EP156 = " covE_P15 == covE_P16 "
 
 #  FOR NOW THIS MODEL IS ONLY SPECIFIED FOR THE CFS
