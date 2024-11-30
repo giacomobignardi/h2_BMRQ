@@ -51,11 +51,12 @@ fitmeasures(cfs_AE_fit, c("cfi","srmr"))
 
 # rA
 rA_AE =  cfs_AE_sumy$pe %>% filter(grepl("rA",lhs) & grepl("rA_P1",label) )
+rE_AE =  cfs_AE_sumy$pe %>% filter(grepl("rE",lhs) & grepl("rE_P1",label) )
 cA_AE =  cfs_AE_sumy$pe %>% filter(grepl("covA",label)) %>% distinct(label,.keep_all = T)
 
 # save rA for external plotting
 write_csv(rA_AE,sprintf("%s/%s/06_rA_SMDT.csv", wdOA,wdOA_output))
-write_csv(cA_AE,sprintf("%s/%s/06_rE_SMDT.csv", wdOA,wdOA_output))
+write_csv(rE_AE,sprintf("%s/%s/06_rE_SMDT.csv", wdOA,wdOA_output))
 
 # differences between back transfomed zA
 cfs_AE_sumy$pe %>% 
